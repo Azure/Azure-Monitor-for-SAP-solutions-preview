@@ -1,0 +1,88 @@
+DATE                                              20220512                                          120549
+RELEASE                                           750
+LOADED_AGRS                                       Z_AMS_NETWEAVER_MONITORING
+AGR_DEFINE                                        001Z_AMS_NETWEAVER_MONITORING                                  
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000001/SDF/E2E  T-MX54013100    U  O000010
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000002S_ADMI_FCDT-MX54013100    U  O000013
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000003S_BTCH_ADMT-MX54013100    U  O000016
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000004S_RFC     T-MX54013100    U  O000004
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000005S_SDSAUTH T-MX54013100    U  O000035
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000006S_TABU_NAMT-MX54013100    U  O000019
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000007S_TOOLS_EXT-MX54013100    U  O000023
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000008S_XMI_LOG T-MX54013100    U  O000026
+AGR_1250                                          001Z_AMS_NETWEAVER_MONITORING    000009S_XMI_PRODT-MX54013100    U  O000029
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000001/SDF/E2E  T-MX54013100    ACTVT     03                                                                              U  O000011
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000002S_ADMI_FCDT-MX54013100    S_ADMI_FCDST0R                                                                            U  O000014
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000003S_RFC     T-MX54013100    ACTVT     16                                                                              U  O000005
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000004S_RFC     T-MX54013100    RFC_NAME  /OSP/SYSTEM_TIMEZONE                                                            U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000005S_RFC     T-MX54013100    RFC_NAME  /SDF/GET_DUMP_LOG                                                               U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000006S_RFC     T-MX54013100    RFC_NAME  /SDF/GET_SYS_LOG                                                                U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000007S_RFC     T-MX54013100    RFC_NAME  /SDF/SMD_E2E                                                                    U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000008S_RFC     T-MX54013100    RFC_NAME  /SDF/SMON_ANALYSIS_READ                                                         U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000009S_RFC     T-MX54013100    RFC_NAME  /SDF/SMON_GET_SMON_RUNS                                                         U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000010S_RFC     T-MX54013100    RFC_NAME  BAPI_XBP_JOB_SELECT                                                             U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000011S_RFC     T-MX54013100    RFC_NAME  BAPI_XMI_LOGON                                                                  U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000012S_RFC     T-MX54013100    RFC_NAME  BDL_GET_CENTRAL_TIMESTAMP                                                       U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000013S_RFC     T-MX54013100    RFC_NAME  DDIF_FIELDINFO_GET                                                              U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000014S_RFC     T-MX54013100    RFC_NAME  ENQUEUE_READ                                                                    U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000015S_RFC     T-MX54013100    RFC_NAME  RFCPING                                                                         U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000016S_RFC     T-MX54013100    RFC_NAME  RFC_GET_FUNCTION_INTERFACE                                                      U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000017S_RFC     T-MX54013100    RFC_NAME  RFC_READ_TABLE                                                                  U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000018S_RFC     T-MX54013100    RFC_NAME  SWNC_GET_WORKLOAD_SNAPSHOT                                                      U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000019S_RFC     T-MX54013100    RFC_NAME  TRFC_QIN_GET_CURRENT_QUEUES                                                     U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000020S_RFC     T-MX54013100    RFC_NAME  TRFC_QOUT_GET_CURRENT_QUEUES                                                    U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000021S_RFC     T-MX54013100    RFC_TYPE  FUGR                                                                            U  O000007
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000022S_RFC     T-MX54013100    RFC_TYPE  FUNC                                                                            U  O000007
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000023S_TABU_NAMT-MX54013100    ACTVT     03                                                                              U  O000020
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000024S_TABU_NAMT-MX54013100    TABLE     VBHDR                                                                           U  O000021
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000025S_TOOLS_EXT-MX54013100    AUTH      S_TOOLS_EX                                                                      U  O000024
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000026S_TOOLS_EXT-MX54013100    AUTH      S_TOOLS_EX_A                                                                    U  O000024
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000027S_XMI_LOG T-MX54013100    XMILOGACC *                                                                               U  O000027
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000028S_XMI_PRODT-MX54013100    EXTCOMPANY*                                                                               U  O000030
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000029S_XMI_PRODT-MX54013100    EXTPRODUCT*                                                                               U  O000031
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000030S_XMI_PRODT-MX54013100    INTERFACE XBP                                                                             U  O000032
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000031S_BTCH_ADMT-MX54013100    BTCADMIN  Y                                                                               U  O000017
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000032S_TABU_NAMT-MX54013100    TABLE     E071                                                                            U  O000021
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000033S_RFC     T-MX54013100    RFC_NAME  /SAPDS/RFC_READ_TABLE2                                                          U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000034S_SDSAUTH T-MX54013100    ACTVT     16                                                                              U  O000036
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000035S_RFC     T-MX54013100    RFC_NAME  SAPTUNE_GET_SUMMARY_STATISTIC                                                   U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000036S_TABU_NAMT-MX54013100    TABLE     ARFCSSTATE                                                                      U  O000021
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000037S_TABU_NAMT-MX54013100    TABLE     E070                                                                            U  O000021
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000038S_RFC     T-MX54013100    RFC_NAME  GWMON_GET_CONN_TABLE                                                            U  O000006
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000039S_TABU_NAMT-MX54013100    TABLE     /SDF/SMON_HEADER                                                                U  O000021
+AGR_1251                                          001Z_AMS_NETWEAVER_MONITORING    000040S_RFC     T-MX54013100    RFC_NAME  BAPI_XMI_LOGON_WS                                                               U  O000006
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00000AMS NETWEAVER MONITORING ACCESS
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00001NETWEAVER MONITORING LEAST PRIVILEGED AUTHORIZATIONS  FOR THE AMS SERVICE USER .
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00002
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00003For NW 1.3 Addition
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00004--------------------------------------------------------------------------------
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00005
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00006System Logs Analysis (SM21) - /SDF/GET_SYS_LOG
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00007Batch Jobs Statistics (SM37) - BAPI_XBP_JOB_SELECT/BAPI_XMI_LOGON
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00008Authorization object S_XMI_LOG(*),S_XMI_PROD(*,*,XBP) to read the batch jobs
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00009
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00010Failed Updates (SM13) - RFC_READ_TABLE
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00011Authorization Object S_TABU_NAM ( Table VBHDR , Display )
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00012
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00013Object Lock (SM12)- ENQUEUE_READ
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00014SMQ1- TRFC_QIN_GET_CURRENT_QUEUES
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00015SMQ2 - TRFC_QOUT_GET_CURRENT_QUEUES
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00016
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00017Timezone Issue Fix include FM - /OSP/SYSTEM_TIMEZONE
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00018
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00019For NW 1.5 Addition
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00020-------------------------------------------------------
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00021SM58 - /SAPDS/RFC_READ_TABLE2 . Table  ARFCSSTATE
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00022STMS -  E070 , E071
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00023
+AGR_TEXTS                                         001Z_AMS_NETWEAVER_MONITORING    E00024
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    COLL_AGR  
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    DEVCLASS  
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    FORCE_MIX 
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    FORCE_YEL 
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    MASTER_LAN
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    RESP_USER 
+AGR_FLAGS                                         001Z_AMS_NETWEAVER_MONITORING    SYS_FLAG  
+AGR_TIME                                          001Z_AMS_NETWEAVER_MONITORING    PROFILE   
+AGR_TIME                                          001Z_AMS_NETWEAVER_MONITORING    SYSTTARTMP
+AGR_LSD                                           001Z_AMS_NETWEAVER_MONITORING                                  E

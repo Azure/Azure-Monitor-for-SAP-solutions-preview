@@ -1,7 +1,8 @@
 ﻿param(
-    #[Parameter(Mandatory=$true)]
-    [string]$ArmId = "<ams-arm-id>",
-    [String[]] $subscriptions = ""
+    [Parameter(Mandatory=$true)]
+    [string]$ArmId,
+    [Parameter(Mandatory=$true)]
+    [String[]] $subscriptions
 )
 
 # Install module pre-requisites

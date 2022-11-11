@@ -1,7 +1,6 @@
 ﻿param(
     [Parameter(Mandatory=$true)]
     [string]$ArmId,
-    [Parameter(Mandatory=$true)]
     [String[]] $subscriptions
 )
 
@@ -108,6 +107,8 @@ $subcriptionArmId = "/subscriptions/" + $ArmDetails.subscriptionId
 
 $mrg = GetAmsV2MonitorProperties -subscriptionId $ArmDetails.subscriptionId -resourceGroup $ArmDetails.amsResourceGroup -monitorName $ArmDetails.amsResourceName
 Write-Output "Managed Resource Group name is : $mrg" 
+
+Set-AzContext -Subscription $ArmDetails.subscriptionId
 
 Write-Output "Fetching Managed Identity Details in Resource Group $mrg"
 $managedIdentityList = Get-AzResource -ResourceGroupName $mrg -Name "$providerType*" -ResourceType Microsoft.ManagedIdentity/userAssignedIdentities -ErrorAction Stop

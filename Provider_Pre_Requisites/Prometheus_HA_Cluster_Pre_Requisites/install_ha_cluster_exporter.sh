@@ -12,9 +12,9 @@ if [[ "$(grep '^ID=' /etc/*-release)" == *"rhel"* ]]; then
     cd /var/lib/pcp/pmdas/hacluster
     ./Install
     echo "Enable and start the pmproxy service."
-    sstemctl start pmproxy
+    systemctl start pmproxy
     systemctl enable pmproxy
-    echo "you can check the metrics on http://<IP-Address>:44322/metrics
+    echo "you can check the metrics on http://<IP-Address>:44322/metrics"
 else
     echo "Running zypper install command"
     sudo zypper install prometheus-ha_cluster_exporter -y

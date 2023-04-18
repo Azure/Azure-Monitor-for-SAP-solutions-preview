@@ -1,0 +1,31 @@
+*&---------------------------------------------------------------------*
+*& Report Z_ACTIVATE_SICF
+*&---------------------------------------------------------------------*
+*& Program to activate RFC and WSDL11 service in SICF
+*&---------------------------------------------------------------------*
+REPORT z_activate_sicf.
+
+CALL FUNCTION 'HTTP_ACTIVATE_NODE'
+  EXPORTING
+    nodeguid = '1ZR2M5VBNRH64CBQYVCMJAUM3'.
+IF sy-subrc = 0.
+  WRITE : /'RFC service activated'.
+ELSE.
+  WRITE : /'Error in activating RFC service'.
+ENDIF.
+CALL FUNCTION 'HTTP_ACTIVATE_NODE'
+  EXPORTING
+    nodeguid = '7OVJNGD7SMVOV46FN40CA7GEN'.
+IF sy-subrc = 0.
+  WRITE : /'WSDL11 service activated'.
+ELSE.
+  WRITE : /'Error in activating WSDL11 service'.
+ENDIF.
+CALL FUNCTION 'HTTP_ACTIVATE_NODE'
+  EXPORTING
+    nodeguid = 'EEPI2GLFNOLHN7IW9R54I61RZ'.
+IF sy-subrc = 0.
+  WRITE : /'SOAP service activated'.
+ELSE.
+  WRITE : /'Error in activating SOAP service'.
+ENDIF.

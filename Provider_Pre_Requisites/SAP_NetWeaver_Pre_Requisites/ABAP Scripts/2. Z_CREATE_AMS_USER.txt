@@ -1,0 +1,37 @@
+*&---------------------------------------------------------------------*
+*& Report Z_CREATE_AMS_USER
+*&---------------------------------------------------------------------*
+*& This program will create a user for AMS monitoring in SU01
+*&---------------------------------------------------------------------*
+REPORT z_create_ams_user.
+
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME .
+PARAMETERS : p_uname TYPE bapibname-bapibname OBLIGATORY,
+             p_upswd TYPE bapipwd OBLIGATORY.
+SELECTION-SCREEN END OF BLOCK b1 .
+
+DATA : lt_bapiret2 TYPE TABLE OF bapiret2,
+       ls_bapiret2 LIKE LINE  OF lt_bapiret2,
+       address     TYPE bapiaddr3,
+       logondata   TYPE bapilogond.
+
+" Assigning temp first and last name to the newly created user
+address-firstname = 'ams'.
+address-lastname  = 'user'.
+
+CALL FUNCTION 'BAPI_USER_CREATE1'
+  EXPORTING
+    username  = p_uname
+    password  = p_upswd
+    address   = address
+    logondata = logondata
+  TABLES
+    return    = lt_bapiret2.
+IF lt_bapiret2 IS NOT INITIAL.
+  READ TABLE lt_bapiret2 INTO ls_bapiret2 WITH KEY type = 'E'.
+  IF sy-subrc IS NOT INITIAL.
+    WRITE : /'New User Created Successfully'.
+  ELSE.
+    WRITE : /'User already exist in system. Please provide a new username'.
+  ENDIF.
+ENDIF.

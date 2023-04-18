@@ -11,7 +11,6 @@ PARAMETERS : p_uname TYPE bapibname-bapibname OBLIGATORY,
 SELECTION-SCREEN END OF BLOCK b1 .
 
 DATA : lt_bapiret2 TYPE TABLE OF bapiret2,
-       ls_bapiret2 LIKE LINE  OF lt_bapiret2,
        address     TYPE bapiaddr3,
        logondata   TYPE bapilogond.
 
@@ -28,7 +27,7 @@ CALL FUNCTION 'BAPI_USER_CREATE1'
   TABLES
     return    = lt_bapiret2.
 IF lt_bapiret2 IS NOT INITIAL.
-  READ TABLE lt_bapiret2 INTO ls_bapiret2 WITH KEY type = 'E'.
+  READ TABLE lt_bapiret2 ASSIGNING FIELD-SYMBOL(<lfs_bapiret2>) WITH KEY type = 'E'.
   IF sy-subrc IS NOT INITIAL.
     WRITE : /'New User Created Successfully'.
   ELSE.

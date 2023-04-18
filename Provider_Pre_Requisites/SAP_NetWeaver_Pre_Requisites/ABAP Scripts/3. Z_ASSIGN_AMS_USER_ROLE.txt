@@ -14,7 +14,6 @@ SELECTION-SCREEN END OF BLOCK b1 .
 DATA : lt_agr_users TYPE TABLE OF bapiagr,
        ls_agr_users LIKE LINE  OF lt_agr_users,
        lt_bapiret2  TYPE TABLE OF bapiret2,
-       ls_bapiret2  LIKE LINE  OF lt_bapiret2,
        date_1       TYPE d.
 
 ** assign rolename, startdate, enddate to the role object
@@ -32,7 +31,7 @@ CALL FUNCTION 'BAPI_USER_ACTGROUPS_ASSIGN'
     activitygroups = lt_agr_users
     return         = lt_bapiret2.
 IF lt_bapiret2 IS NOT INITIAL.
-  READ TABLE lt_bapiret2 INTO ls_bapiret2 WITH KEY type = 'E'.
+  READ TABLE lt_bapiret2 ASSIGNING FIELD-SYMBOL(<lfs_bapiret2>) WITH KEY type = 'E'.
   IF sy-subrc IS NOT INITIAL.
     WRITE : /'User asociated with role Successfully'.
   ENDIF.

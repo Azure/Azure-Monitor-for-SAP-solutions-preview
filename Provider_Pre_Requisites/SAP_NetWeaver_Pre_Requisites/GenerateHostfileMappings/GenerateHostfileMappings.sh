@@ -2,13 +2,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # </copyright>
 
-# Instructions:
-# 1. Login to the application server using root user credentials.
-# 2. Copy this file to the home directory on the SAP system instance.
-# 3. Run the following command to execute the script: ./GenerateHostfileMappings.sh <instance_number>
-# For example: ./GenerateHostfileMappings.sh 00
-
-
 #!/bin/bash
 # Get instance number as a parameter
 instanceNumber=$1

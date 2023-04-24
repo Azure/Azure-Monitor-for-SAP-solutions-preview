@@ -2,13 +2,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # </copyright>
 
-# Instructions:
-# 1. Login to the application server using root user credentials.
-# 2. Copy this file to the Desktop on the SAP system instance.
-# 3. Open powershell in the same directory and run the following command to execute the script:
-#    ./GenerateHostfileMappings.ps1 -instanceNumber <instance_number>
-# For example: ./GenerateHostfileMappings.ps1 -instanceNumber 00
-
 param(
 #[Parameter(Mandatory=$true)]]
 [int]$instanceNumber

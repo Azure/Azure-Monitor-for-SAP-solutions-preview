@@ -10,7 +10,7 @@ Steps:
 ```./GenerateHostfileMappings.ps1 -instanceNumber <instance_number>```
 For example: ./GenerateHostfileMappings.ps1 -instanceNumber 00
 
-### Windows Virtual Machines
+### Linux Virtual Machines
 
 Steps:
 

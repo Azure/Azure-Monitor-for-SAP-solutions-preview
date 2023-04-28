@@ -24,7 +24,7 @@ class UnprotectWebMethods
         $value = $value.Split("=")[1].Trim()
         # Output the value
         Write-Host "The service/protectedwebmethods value is: $value"
-        $new_value = "service/protectedwebmethods = SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList"
+        $new_value = "service/protectedwebmethods = SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList GetEnvironment"
         #update the default.pfl file SDEFAULT parameter to unprotect the SAP Webmethods
         $content = $content -replace "^(service/protectedwebmethods\s*=\s*).*", $new_value
         Set-Content $filepath $content
@@ -42,7 +42,7 @@ class UnprotectWebMethods
 }
 
 $classinstance = [UnprotectWebMethods]::new()
-$classinstance.path = $args[0]
+$classinstance.filepath = $args[0]
 $classinstance.instance = $args[1]
 $classinstance.Invoke($args[0], $args[1])
 

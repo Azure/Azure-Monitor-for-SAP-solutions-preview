@@ -3,8 +3,9 @@
 # </copyright>
 
 #!/bin/bash
-# Get instance number as a parameter
-instanceNumber=$1
+
+# Replace instance number with the instance number of the Central Server instance
+instanceNumber=00
 
 # Set the path to the SAP hostctrl executable
 cd "/usr/sap/hostctrl/exe"
@@ -22,9 +23,10 @@ hostfile_entries=()
 for hostname in $hosts
 do
     ip=$(ping -c 1 $hostname | head -n 1 | cut -d "(" -f 2 | cut -d ")" -f 1)
-    hostfile_entries+="$ip $hostname.$fqdn $hostname, "
+    hostfile_entries+="$ip $hostname.$fqdn $hostname,"
 done
 
 # Print the host file entries separated by commas
+hostfile_entries=${hostfile_entries%?}
 IFS=","
 echo "${hostfile_entries[*]}"

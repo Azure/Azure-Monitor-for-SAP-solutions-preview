@@ -1,3 +1,7 @@
+# <copyright file="GenerateHostfileMappings.ps1" company="Microsoft Corporation">
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# </copyright>
+
 #<summary>
 # Unprotect the webmethods in default.pfl file and run restart service command in windows VM.
 # </summary>

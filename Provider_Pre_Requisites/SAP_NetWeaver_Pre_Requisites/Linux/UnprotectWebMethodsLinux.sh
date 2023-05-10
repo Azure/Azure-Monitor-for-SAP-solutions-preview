@@ -10,7 +10,7 @@ instanceNumber=00
 siadam=l13adm
 
 # update the parameter value and restart the service
-sudo -u $siadam /usr/sap/hostctrl/exe/sapcontrol -nr $instanceNumber -function ParameterValue service/protectedwebmethods = SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment
+sudo -u $siadam /usr/sap/hostctrl/exe/sapcontrol -nr $instanceNumber -function ParameterValue service/protectedwebmethods = SDEFAULT -GetQueueStatistic -ABAPGetWPTable -EnqGetStatistic -GetProcessList -GetEnvironment -ABAPGetSystemWPTable
 sudo -u $siadam /usr/sap/hostctrl/exe/sapcontrol -nr $instanceNumber -function RestartService
 
 echo "Parameter service/protectedwebmethods updated successfully"

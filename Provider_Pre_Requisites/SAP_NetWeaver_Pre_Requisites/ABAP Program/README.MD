@@ -2,7 +2,7 @@
 # This customizing transport request will be used to create the Z_AMS_NETWEAVER_MONITORING in the SAP system and generate the profile
 
 1. Transfer the data and cofiles into the SAP system application server using CG3Z TCODE.
-2. Run SE01 TCODE and import the customizing request into the SAP system by providing the appropriate client id 
+2. Run STMS TCODE and import the customizing request into the SAP system by providing the appropriate client id 
 where you want the roles to be created.
 3. Once the TR is imported in SAP System, navigate to TCODE PFCG and enter the role name as Z_AMS_NETWEAVER_MONITORING 
 and click edit and validate the following: 

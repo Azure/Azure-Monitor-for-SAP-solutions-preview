@@ -1,9 +1,11 @@
-$subscriptionId = ""
-$tenantId = ""
-$rgName = ""
-$amsResourceName = ""
-$alertSuppressionInMinutes = 0
-$actionGroupResourceId = ""
+param(
+    [Parameter(Mandatory=$true)][string]$SubscriptionId,
+    [Parameter(Mandatory=$true)][string]$TenantId,
+    [Parameter(Mandatory=$true)][string]$RgName,
+    [Parameter(Mandatory=$true)][string]$AmsResourceName,
+    [Parameter(Mandatory=$true)][string]$ActionGroupResourceId,
+    [int]$AlertSuppressionInMinutes=0
+)
 
 $ALERTS_CONFIG = @"
 [
@@ -423,15 +425,15 @@ $ALERTS_CONFIG = @"
 Install-Module -Name Az.Workloads
 Install-Module -Name Az.OperationalInsights
 
-Get-AzSubscription -SubscriptionId $subscriptionId -TenantId $tenantId | Set-AzContext
+Get-AzSubscription -SubscriptionId $SubscriptionId -TenantId $TenantId | Set-AzContext
 
-$monitor = Get-AzWorkloadsMonitor -ResourceGroupName $rgName -Name $amsResourceName
+$monitor = Get-AzWorkloadsMonitor -ResourceGroupName $RgName -Name $AmsResourceName
 $monitor.LogAnalyticsWorkspaceArmId -match "/subscriptions/(?<subscriptionId>.*)/resourcegroups/(?<laWorkspaceRgName>.*)/providers/microsoft.operationalinsights/workspaces/(?<laWorkspaceName>.*)" | Out-Null
 $laWorkspaceRgName = $matches["laWorkspaceRgName"]
 $laWorkspaceName = $matches["laWorkspaceName"]
 $laWorkspace = Get-AzOperationalInsightsWorkspace -ResourceGroupName $laWorkspaceRgName -Name $laWorkspaceName
 
-$providers = Get-AzWorkloadsProviderInstance -ResourceGroupName $rgName -MonitorName $amsResourceName
+$providers = Get-AzWorkloadsProviderInstance -ResourceGroupName $RgName -MonitorName $AmsResourceName
 
 foreach ($provider in $providers) {
     if ($provider.ProvisioningState -eq "Succeeded" -and $provider.ProviderSetting.ProviderType -eq "SapNetWeaver") {
@@ -465,6 +467,12 @@ foreach ($provider in $providers) {
             $query = $query.replace("{AlertThreshold}", $alertConfig.alertTemplate.defaultThreshold)
             $alertName = "[" + $providerName + "] " + $alertConfig.name
 
+            $alertRule = Get-AzScheduledQueryRule -ResourceGroupName $monitor.ManagedResourceGroupConfigurationName -Name $alertName -ErrorAction SilentlyContinue
+            if ($alertRule) {
+                Write-Host "Alert '$($alertConfig.name)' already exists. Skipping..."
+                continue
+            }
+
             $template = @{
                 "`$schema" = "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
                 "contentVersion" = "1.0.0.0"
@@ -495,7 +503,7 @@ foreach ($provider in $providers) {
                                 "severity" = $alertConfig.severity
                                 "aznsAction" = @{
                                     "actionGroup" = @(
-                                        $actionGroupResourceId
+                                        [Parameter(Mandatory=$true)][string]$ActionGroupResourceId
                                     )
                                     "emailSubject" = "[concat('Alert Triggered - ', '$alertName')]"
                                 }
@@ -509,7 +517,7 @@ foreach ($provider in $providers) {
                                         "metricTriggerType" = $alertConfig.alertTemplate.metricMeasurement.metricTriggerType
                                     }
                                 }
-                                "throttlingInMin" = $alertSuppressionInMinutes
+                                "throttlingInMin" = $AlertSuppressionInMinutes
                             }
                         }
                     }

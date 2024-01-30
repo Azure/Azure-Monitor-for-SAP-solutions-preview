@@ -29,7 +29,9 @@ $action_group_resource_id = '/subscriptions/00000000-0000-0000-0000-000000000000
 .\NetWeaverAlertsBulkCreation.ps1 -SubscriptionId $subscription_id -TenantId $tenant_id -RgName $rg_name -AmsResourceName $monitor_name -ActionGroupResourceId $action_group_resource_id
 ```
 - The script automatically installs the required PowerShell modules. Agree to the prompts to install the modules in case they are not already installed.
-- The script will loop through all the NetWeaver providers created under your AMS resource and set up the pre-configured alerts. Review the ALERTS_CONFIG variable to see the alerts that will be created. Edit/Remove any alerts as per your requirements.
+- You will then see the list of available NetWeaver providers in your AMS resources. Select the providers you want to create alerts for by entering their index. You will be asked to confirm your selection.
+![Provider selection](media/providerSelection.png)
+- Then the script will loop through the selected providers and set up the pre-configured alerts. Review the ALERTS_CONFIG variable to see the alerts that will be created. Edit/Remove any alerts as per your requirements.
 - Any alerts that are already existing will be skipped. So you can safely run the script multiple times.
 ![Alert already exists](media/alertAlreadyExists.png)
 - Some alerts require an additional Aggregate input. The available values will be output as a table. Please copy and enter one of these values when prompted. You can also enter `skip` to skip the creation of that particular alert.

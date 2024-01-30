@@ -434,103 +434,128 @@ $laWorkspaceName = $matches["laWorkspaceName"]
 $laWorkspace = Get-AzOperationalInsightsWorkspace -ResourceGroupName $laWorkspaceRgName -Name $laWorkspaceName
 
 $providers = Get-AzWorkloadsProviderInstance -ResourceGroupName $RgName -MonitorName $AmsResourceName
+$netweaverProviders = $providers | Where-Object { $_.ProvisioningState -eq "Succeeded" -and $_.ProviderSetting.ProviderType -eq "SapNetWeaver" }
+$selection = ""
+if ($netweaverProviders.Count -gt 0) {
+    Write-Host "Available providers:"
+    for ($i = 0; $i -lt $netweaverProviders.Count; $i++) {
+        Write-Host "$($i) - $($netweaverProviders[$i].Name)"
+    }
+    Write-Host "Select the provider indices to create alerts for (comma separated without spaces) or enter '*' to create alerts for all providers"
+    $selection = Read-Host "Enter your choice (eg. 0,2,15)"
+}
+$selection = "," + $selection + ","
+$selectedProviders = New-Object System.Collections.Generic.List[System.Object]
+for ($i = 0; $i -lt $netweaverProviders.Count; $i++) {
+    if ($selection -eq ",*," -or $selection.Contains(",$($i),")) {
+        $selectedProviders.Add($netweaverProviders[$i])
+    }
+}
+Write-Host "You have selected the following providers:"
+foreach ($provider in $selectedProviders) {
+    Write-Host $provider.Name
+}
+$confirmation = Read-Host "Enter 'Y' to confirm"
+if ($confirmation -ne "Y") {
+    Write-Host "Exiting..."
+    Exit
+}
 
-foreach ($provider in $providers) {
-    if ($provider.ProvisioningState -eq "Succeeded" -and $provider.ProviderSetting.ProviderType -eq "SapNetWeaver") {
-        $providerName = $provider.Name
-        Write-Host "Creating alerts for $($providerName)..."
+foreach ($provider in $selectedProviders) {
+    $providerName = $provider.Name
+    Write-Host "Creating alerts for $($providerName)..."
 
-        foreach ($alertConfig in $ALERTS_CONFIG) {
-            Write-Host "Creating alert $($alertConfig.name)..."
-            Write-Host "Alert description: $($alertConfig.description)"
-            $query = $alertConfig.alertTemplate.query
+    foreach ($alertConfig in $ALERTS_CONFIG) {
+        Write-Host "Creating alert $($alertConfig.name)..."
+        Write-Host "Alert description: $($alertConfig.description)"
+        $query = $alertConfig.alertTemplate.query
 
-            if ($aggregateName = $alertConfig.alertTemplate.PSObject.Properties.Item("aggregateName")) {
-                $aggregateName = $alertConfig.alertTemplate.aggregateName
-                $aggregateQuery = $alertConfig.alertTemplate.aggregateDropDownQuery
-                $aggregateValue = "skip"
-                $queryResult = Invoke-AzOperationalInsightsQuery -WorkspaceId $laWorkspace.CustomerId -Query $aggregateQuery -ErrorAction SilentlyContinue
-                if ($queryResult) {
-                    Write-Host "Possible $($aggregateName) values:"
-                    $queryResult | Select-Object -ExpandProperty Results | Format-Table
-                    $aggregateValue = Read-Host "Choose a $($aggregateName) to use for the alert or enter 'skip' to skip this alert"
-                } else {
-                    Write-Host "Required data related to $($aggregateName) was not found."
-                }
-                if ($aggregateValue -eq "skip") {
-                    Write-Host "Skipping alert $($alertConfig.name)..."
-                    continue
-                }
-                $query = $query.replace("{Aggregate}", $aggregateValue)
+        if ($aggregateName = $alertConfig.alertTemplate.PSObject.Properties.Item("aggregateName")) {
+            $aggregateName = $alertConfig.alertTemplate.aggregateName
+            $aggregateQuery = $alertConfig.alertTemplate.aggregateDropDownQuery
+            $aggregateValue = "skip"
+            $queryResult = Invoke-AzOperationalInsightsQuery -WorkspaceId $laWorkspace.CustomerId -Query $aggregateQuery -ErrorAction SilentlyContinue
+            if ($queryResult) {
+                Write-Host "Possible $($aggregateName) values:"
+                $queryResult | Select-Object -ExpandProperty Results | Format-Table
+                $aggregateValue = Read-Host "Choose a $($aggregateName) to use for the alert or enter 'skip' to skip this alert"
+            } else {
+                Write-Host "Required data related to $($aggregateName) was not found."
             }
-            $query = $query.replace("{ProviderInstance}", $providerName)
-            $query = $query.replace("{AlertThreshold}", $alertConfig.alertTemplate.defaultThreshold)
-            $alertName = "[" + $providerName + "] " + $alertConfig.name
-
-            $alertRule = Get-AzScheduledQueryRule -ResourceGroupName $monitor.ManagedResourceGroupConfigurationName -Name $alertName -ErrorAction SilentlyContinue
-            if ($alertRule) {
-                Write-Host "Alert '$($alertConfig.name)' already exists. Skipping..."
+            if ($aggregateValue -eq "skip") {
+                Write-Host "Skipping alert $($alertConfig.name)..."
                 continue
             }
+            $query = $query.replace("{Aggregate}", $aggregateValue)
+        }
+        $query = $query.replace("{ProviderInstance}", $providerName)
+        $query = $query.replace("{AlertThreshold}", $alertConfig.alertTemplate.defaultThreshold)
+        $alertName = "[" + $providerName + "] " + $alertConfig.name
 
-            $template = @{
-                "`$schema" = "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
-                "contentVersion" = "1.0.0.0"
-                "resources" = @(
-                    @{
-                        "name" = $alertName
-                        "type" = "Microsoft.Insights/scheduledQueryRules"
-                        "apiVersion" = "2018-04-16"
-                        "tags" = @{
-                            "profile-id" = $providerName
-                            "alert-template-id" = $alertConfig.templateId
-                        }
-                        "location" = $laWorkspace.Location
-                        "properties" = @{
-                            "description" = $alertConfig.description
-                            "enabled" = "true"
-                            "source" = @{
-                                "query" = $query
-                                "dataSourceId" = $laWorkspace.ResourceId
-                                "queryType" = "ResultCount"
-                            }
-                            "schedule" = @{
-                                "frequencyInMinutes" = $alertConfig.alertTemplate.metricMeasurement.frequencyInMinutes
-                                "timeWindowInMinutes" = $alertConfig.alertTemplate.metricMeasurement.timeWindowInMinutes
-                            }
-                            "action" = @{
-                                "odata.type" = "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
-                                "severity" = $alertConfig.severity
-                                "aznsAction" = @{
-                                    "actionGroup" = @(
-                                        [Parameter(Mandatory=$true)][string]$ActionGroupResourceId
-                                    )
-                                    "emailSubject" = "[concat('Alert Triggered - ', '$alertName')]"
-                                }
-                                "trigger" = @{
-                                    "thresholdOperator" = $alertConfig.alertTemplate.thresholdOperator
-                                    "threshold" = $alertConfig.alertTemplate.defaultThreshold
-                                    "metricTrigger" = @{
-                                        "thresholdOperator" = $alertConfig.alertTemplate.metricMeasurement.thresholdOperator
-                                        "threshold" = $alertConfig.alertTemplate.metricMeasurement.threshold
-                                        "metricColumn" = $alertConfig.alertTemplate.metricMeasurement.metricColumn
-                                        "metricTriggerType" = $alertConfig.alertTemplate.metricMeasurement.metricTriggerType
-                                    }
-                                }
-                                "throttlingInMin" = $AlertSuppressionInMinutes
-                            }
-                        }
+        $alertRule = Get-AzScheduledQueryRule -ResourceGroupName $monitor.ManagedResourceGroupConfigurationName -Name $alertName -ErrorAction SilentlyContinue
+        if ($alertRule) {
+            Write-Host "Alert '$($alertConfig.name)' already exists. Skipping..."
+            continue
+        }
+
+        $template = @{
+            "`$schema" = "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+            "contentVersion" = "1.0.0.0"
+            "resources" = @(
+                @{
+                    "name" = $alertName
+                    "type" = "Microsoft.Insights/scheduledQueryRules"
+                    "apiVersion" = "2018-04-16"
+                    "tags" = @{
+                        "profile-id" = $providerName
+                        "alert-template-id" = $alertConfig.templateId
+                        "CreatedUsingAutomationScript" = $true
                     }
-                )
-                "outputs" = @{
-                    "scheduledQueryRules" = @{
-                        "type" = "string"
-                        "value" = "[resourceId('Microsoft.Insights/scheduledQueryRules', '$alertName')]"
+                    "location" = $laWorkspace.Location
+                    "properties" = @{
+                        "description" = $alertConfig.description
+                        "enabled" = "true"
+                        "source" = @{
+                            "query" = $query
+                            "dataSourceId" = $laWorkspace.ResourceId
+                            "queryType" = "ResultCount"
+                        }
+                        "schedule" = @{
+                            "frequencyInMinutes" = $alertConfig.alertTemplate.metricMeasurement.frequencyInMinutes
+                            "timeWindowInMinutes" = $alertConfig.alertTemplate.metricMeasurement.timeWindowInMinutes
+                        }
+                        "action" = @{
+                            "odata.type" = "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+                            "severity" = $alertConfig.severity
+                            "aznsAction" = @{
+                                "actionGroup" = @(
+                                    [Parameter(Mandatory=$true)][string]$ActionGroupResourceId
+                                )
+                                "emailSubject" = "[concat('Alert Triggered - ', '$alertName')]"
+                            }
+                            "trigger" = @{
+                                "thresholdOperator" = $alertConfig.alertTemplate.thresholdOperator
+                                "threshold" = $alertConfig.alertTemplate.defaultThreshold
+                                "metricTrigger" = @{
+                                    "thresholdOperator" = $alertConfig.alertTemplate.metricMeasurement.thresholdOperator
+                                    "threshold" = $alertConfig.alertTemplate.metricMeasurement.threshold
+                                    "metricColumn" = $alertConfig.alertTemplate.metricMeasurement.metricColumn
+                                    "metricTriggerType" = $alertConfig.alertTemplate.metricMeasurement.metricTriggerType
+                                }
+                            }
+                            "throttlingInMin" = $AlertSuppressionInMinutes
+                        }
                     }
                 }
+            )
+            "outputs" = @{
+                "scheduledQueryRules" = @{
+                    "type" = "string"
+                    "value" = "[resourceId('Microsoft.Insights/scheduledQueryRules', '$alertName')]"
+                }
             }
-
-            New-AzResourceGroupDeployment -ResourceGroupName $monitor.ManagedResourceGroupConfigurationName -TemplateObject $template
         }
+
+        New-AzResourceGroupDeployment -ResourceGroupName $monitor.ManagedResourceGroupConfigurationName -TemplateObject $template
     }
 }

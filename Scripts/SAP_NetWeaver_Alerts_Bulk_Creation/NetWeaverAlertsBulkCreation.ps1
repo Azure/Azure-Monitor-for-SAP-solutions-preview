@@ -1,6 +1,5 @@
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionId,
-    [Parameter(Mandatory=$true)][string]$TenantId,
     [Parameter(Mandatory=$true)][string]$RgName,
     [Parameter(Mandatory=$true)][string]$AmsResourceName,
     [Parameter(Mandatory=$true)][string]$ActionGroupResourceId,
@@ -425,7 +424,7 @@ $ALERTS_CONFIG = @"
 Install-Module -Name Az.Workloads
 Install-Module -Name Az.OperationalInsights
 
-Get-AzSubscription -SubscriptionId $SubscriptionId -TenantId $TenantId | Set-AzContext
+Set-AzContext -Subscription $SubscriptionId
 
 $monitor = Get-AzWorkloadsMonitor -ResourceGroupName $RgName -Name $AmsResourceName
 $monitor.LogAnalyticsWorkspaceArmId -match "/subscriptions/(?<subscriptionId>.*)/resourcegroups/(?<laWorkspaceRgName>.*)/providers/microsoft.operationalinsights/workspaces/(?<laWorkspaceName>.*)" | Out-Null

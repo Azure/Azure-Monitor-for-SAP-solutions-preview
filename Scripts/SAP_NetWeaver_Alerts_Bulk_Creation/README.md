@@ -12,7 +12,7 @@ git clone https://github.com/Azure/Azure-Monitor-for-SAP-solutions-preview.git
 - Make sure you have at least contributor role on the Azure Monitor for SAP solutions resource and the associated managed Resource Group.
 
 ## Usage
-- You will need to provide the values of the following parameters related to your Azure Monitor for SAP solutions resource: *subscriptionId*, *rgName*, *amsResourceName*. You can also set the *alertSuppressionInMinutes* optional parameter to the number of minutes to wait before alerting again (by default it is 0).
+- You will need to provide the values of the following parameters related to your Azure Monitor for SAP solutions resource: *subscriptionId*, *rgName*, *amsResourceName*.
 - You are also required to set the *actionGroupResourceId* parameter to the resource ID of the action group you want to use for the alerts. For getting the resource ID of an action group from the portal, follow these steps:
     - Go to the Azure portal and navigate to the Alerts resource page.
     - Click on Action groups in the command bar at the top.

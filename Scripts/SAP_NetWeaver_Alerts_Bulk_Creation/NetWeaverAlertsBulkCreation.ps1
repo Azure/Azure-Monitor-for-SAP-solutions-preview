@@ -2,8 +2,7 @@ param(
     [Parameter(Mandatory=$true)][string]$SubscriptionId,
     [Parameter(Mandatory=$true)][string]$RgName,
     [Parameter(Mandatory=$true)][string]$AmsResourceName,
-    [Parameter(Mandatory=$true)][string]$ActionGroupResourceId,
-    [int]$AlertSuppressionInMinutes=0
+    [Parameter(Mandatory=$true)][string]$ActionGroupResourceId
 )
 
 $ALERTS_CONFIG = @"
@@ -514,6 +513,7 @@ foreach ($provider in $selectedProviders) {
                     "properties" = @{
                         "description" = $alertConfig.description
                         "enabled" = "true"
+                        "autoMitigate" = $true
                         "source" = @{
                             "query" = $query
                             "dataSourceId" = $laWorkspace.ResourceId
@@ -542,7 +542,6 @@ foreach ($provider in $selectedProviders) {
                                     "metricTriggerType" = $alertConfig.alertTemplate.metricMeasurement.metricTriggerType
                                 }
                             }
-                            "throttlingInMin" = $AlertSuppressionInMinutes
                         }
                     }
                 }
